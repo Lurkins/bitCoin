@@ -1,46 +1,74 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
-function App() {
+let url = "https://api.coindesk.com/v1/bpi/currentprice.json"
 
-  
+class App extends Component {
+  constructor(props){
+		super(props);
+		this.state = {
+      dollar: 0,
+		}
+  }
+
+ 
+  getData = (event) => {
+    event.preventDefault();
+    axios({
+      url: url,
+      method: 'get'
+    })
+    .then((res) => {
+      this.setState({dollar: res.data.data.bpi.USD})
+      console.log("this is then", res);
+      
+    }
+    )
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  render() {
   return (
-    <div className="App">
-      <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="text-center my-5">BitCoin Price App</h1>
+    <div>
+    <div className="container">
+        <div className="row">
+            <div className="col-12">
+                <h1 className="text-center my-5">BitCoin Price App</h1>
             </div>               
         </div>
     </div>  
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-12 d-flex justify-content-center">
-                <form  action="/" method="get">
-                    <div class="form-check form-check-inline text-center">
-                        <input class="form-check-input" type="radio" name="currency" id="inlineRadio1" value="usd" checked/>
-                        <label class="form-check-label" for="inlineRadio1">USD</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="currency" id="inlineRadio2" value="gbp"/>
-                        <label class="form-check-label" for="inlineRadio2">GBP</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="currency" id="inlineRadio3" value="eur"/>
-                        <label class="form-check-label" for="inlineRadio3">EUR</label>
-                    </div>
-                    <div class="d-flex justify-content-center mb-5">
-                        <input class="mt-4 btn btn-primary" type="submit" value="Get Price!"/>
-                    </div>
-                </form>
-            </div>
+    <div className="container">
+    <div className="row">
+    <div className="col-12 d-flex justify-content-center">
+      <form>
+          <div className="form-check form-check-inline text-center">
+              <input className="form-check-input" type="radio" name="currency" id="inlineRadio1" value="usd" checked />
+              <label className="form-check-label" for="inlineRadio1">USD</label>
           </div>
-          <p class="text-center"><a href="https://www.coindesk.com/price/bitcoin">Powered by CoinDesk</a></p>
-        </div>
+          <div className="form-check form-check-inline">
+              <input className="form-check-input" type="radio" name="currency" id="inlineRadio2" value="gbp" />
+              <label className="form-check-label" for="inlineRadio2">GBP</label>
+          </div>
+          <div className="form-check form-check-inline">
+              <input className="form-check-input" type="radio" name="currency" id="inlineRadio3" value="eur" />
+              <label className="form-check-label" for="inlineRadio3">EUR</label>
+          </div>
+          <div className="d-flex justify-content-center mb-5">
+              <input onClick={this.getData} className="mt-4 btn btn-primary" type="submit" value="Get Price!" />
+          </div>
+          {this.state.dollar}
+      </form>
     </div>
+    </div>
+    </div>
+    </div>
+    
+
   );
+}
 }
 
 export default App;
