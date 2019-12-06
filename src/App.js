@@ -10,6 +10,7 @@ class App extends Component {
 		super(props);
 		this.state = {
       dollar: 0,
+      currencySign: '',
 		}
   }
 
@@ -21,11 +22,10 @@ class App extends Component {
       method: 'get'
     })
     .then((res) => {
-      this.setState({dollar: res.data.data.bpi.USD})
-      console.log("this is then", res);
-      
-    }
-    )
+      let currencyAmount = res.data.bpi.USD.rate_float;
+      let money = currencyAmount.toFixed(2);
+      this.setState({dollar: money, currencySign: "$"})
+    })
     .catch(function (error) {
       console.log(error);
     });
@@ -59,7 +59,7 @@ class App extends Component {
           <div className="d-flex justify-content-center mb-5">
               <input onClick={this.getData} className="mt-4 btn btn-primary" type="submit" value="Get Price!" />
           </div>
-          {this.state.dollar}
+          {this.state.currencySign}{this.state.dollar}
       </form>
     </div>
     </div>
