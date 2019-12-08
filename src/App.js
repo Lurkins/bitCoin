@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import Chart from './Chart.js';
 
 let url = "https://api.coindesk.com/v1/bpi/currentprice.json"
 
@@ -68,86 +69,95 @@ class App extends Component {
   }
 
   render() {
-  return (
-    <div>
-      <div className="container">
+    return (
+      <div>
+        <div className="container">
+            <div className="row">
+                <div className="col-12">
+                    <h1 className="text-center my-5">BitCoin Price App</h1>
+                </div>               
+            </div>
+        </div>  
+        <div className="container">
           <div className="row">
               <div className="col-12">
-                  <h1 className="text-center my-5">BitCoin Price App</h1>
-              </div>               
-          </div>
-      </div>  
-      <div className="container">
-        <div className="row">
-            <div className="col-12">
-              <h2 className="text-center">Current price:</h2>
-              <div className="App-amount text-success">
-                {this.state.currencySign}{this.state.amount}
+                <h2 className="text-center">Current price:</h2>
+                <div className="App-amount text-success">
+                  {this.state.currencySign}{this.state.amount}
+                </div>
               </div>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              {this.state.selectAlert ? <p className="text-center text-danger">Select your currency</p> : <p className="text-center">Select your currency</p>}
             </div>
-        </div>
-        <div className="row">
-          <div className="col-12">
-            {this.state.selectAlert ? <p className="text-center text-danger">Select your currency</p> : <p className="text-center">Select your currency</p>}
+            <div className="col-12 d-flex justify-content-center">
+              <form>
+                  <div className="form-check form-check-inline text-center">
+                      <input 
+                        className="form-check-input" 
+                        type="radio" 
+                        name="currency" 
+                        id="inlineRadio1" 
+                        value="usd" 
+                        checked={this.state.selectedOption === 'usd'}
+                        onChange={this.handleOptionChange}
+                      />
+                      <label className="form-check-label" htmlFor="inlineRadio1">USD</label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                      <input 
+                        className="form-check-input" 
+                        type="radio" name="currency" 
+                        id="inlineRadio2" 
+                        value="gbp" 
+                        checked={this.state.selectedOption === 'gbp'} 
+                        onChange={this.handleOptionChange}
+                      />
+                      <label className="form-check-label" htmlFor="inlineRadio2">GBP</label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                      <input 
+                        className="form-check-input" 
+                        type="radio" name="currency" 
+                        id="inlineRadio3" 
+                        value="eur"
+                        checked={this.state.selectedOption === 'eur'} 
+                        onChange={this.handleOptionChange}
+                      />
+                      <label className="form-check-label" htmlFor="inlineRadio3">EUR</label>
+                  </div>
+                  <div className="d-flex justify-content-center mb-5">
+                      <input 
+                        onClick={this.getData} 
+                        className="mt-4 btn btn-primary" 
+                        type="submit" 
+                        value="Get Price!" 
+                      />
+                  </div> 
+              </form>
+            </div>
           </div>
-          <div className="col-12 d-flex justify-content-center">
-            <form>
-                <div className="form-check form-check-inline text-center">
-                    <input 
-                      className="form-check-input" 
-                      type="radio" 
-                      name="currency" 
-                      id="inlineRadio1" 
-                      value="usd" 
-                      checked={this.state.selectedOption === 'usd'}
-                      onChange={this.handleOptionChange}
-                    />
-                    <label className="form-check-label" htmlFor="inlineRadio1">USD</label>
-                </div>
-                <div className="form-check form-check-inline">
-                    <input 
-                      className="form-check-input" 
-                      type="radio" name="currency" 
-                      id="inlineRadio2" 
-                      value="gbp" 
-                      checked={this.state.selectedOption === 'gbp'} 
-                      onChange={this.handleOptionChange}
-                    />
-                    <label className="form-check-label" htmlFor="inlineRadio2">GBP</label>
-                </div>
-                <div className="form-check form-check-inline">
-                    <input 
-                      className="form-check-input" 
-                      type="radio" name="currency" 
-                      id="inlineRadio3" 
-                      value="eur"
-                      checked={this.state.selectedOption === 'eur'} 
-                      onChange={this.handleOptionChange}
-                    />
-                    <label className="form-check-label" htmlFor="inlineRadio3">EUR</label>
-                </div>
-                <div className="d-flex justify-content-center mb-5">
-                    <input 
-                      onClick={this.getData} 
-                      className="mt-4 btn btn-primary" 
-                      type="submit" 
-                      value="Get Price!" 
-                    />
-                </div> 
-            </form>
+          <div className="row mb-5">
+            <div className="col-12">
+              <p className="text-center"><a href="https://www.coindesk.com/price/bitcoin">Powered by CoinDesk</a></p>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-12">
-            <p className="text-center"><a href="https://www.coindesk.com/price/bitcoin">Powered by CoinDesk</a></p>
+          <div className="row">
+            <div className="col-12">
+              <h4 className="text-center">BitCoin price 2019 in USD</h4>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 d-flex justify-content-center">
+              <Chart />
+            </div>
+            
           </div>
         </div>
       </div>
-    </div>
-    
-
-  );
-}
+    );
+  }
 }
 
 export default App;
